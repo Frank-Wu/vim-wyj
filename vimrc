@@ -52,22 +52,21 @@ syntax enable
 syntax on
 
 " Auto complete brackets
-inoremap ( ()<LEFT>
-inoremap [ []<LEFT>
-inoremap { {}<LEFT>
-inoremap " ""<LEFT>
-function! RemoveNextDoubleChar(char)
-	let l:line = getline(".")
-	let l:next_char = l:line[col(".")]
-	if a:char == l:next_char
-		execute "normal! l"
+:inoremap ( ()<ESC>i
+:inoremap ) <c-r>=ClosePair(')')<CR>
+:inoremap { {}<ESC>i
+:inoremap } <c-r>=ClosePair('}')<CR>
+:inoremap [ []<ESC>i
+:inoremap ] <c-r>=ClosePair(']')<CR>
+:inoremap " ""<ESC>i
+:inoremap ' ''<ESC>i
+function ClosePair(char)
+	if getline('.')[col('.') - 1] == a:char
+		return "\<Right>"
 	else
-		execute "normal! i" . a:char . ""
-	end
-endfunction
-inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
-inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
-inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
+		return a:char
+	endif
+endf
 
 " For omnicomplete
 let OmniCpp_NamespaceSearch = 1      
