@@ -21,6 +21,7 @@ Bundle 'The-NERD-tree'
 Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'taglist.vim'
+Bundle 'tomasr/molokai'
 " ...
 
 filetype plugin indent on     " required!
@@ -33,11 +34,7 @@ filetype plugin indent on     " required!
 "
 " see :h vundle for more details or wiki for FAQ
 " NOTE: comments after Bundle command are not allowed..
-if has("gui_running")
-	colorscheme koehler
-else
-	colorscheme	desert
-endif
+colorscheme molokai
 filetype plugin on
 set ambiwidth=double
 set autochdir
@@ -53,6 +50,25 @@ set tabstop=4
 set encoding=utf-8
 syntax enable
 syntax on
+
+" Auto complete brackets
+inoremap ( ()<LEFT>
+inoremap [ []<LEFT>
+inoremap { {}<LEFT>
+inoremap " ""<LEFT>
+function! RemoveNextDoubleChar(char)
+	let l:line = getline(".")
+	let l:next_char = l:line[col(".")]
+	if a:char == l:next_char
+		execute "normal! l"
+	else
+		execute "normal! i" . a:char . ""
+	end
+endfunction
+inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
+inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
+inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
+
 " For omnicomplete
 let OmniCpp_NamespaceSearch = 1      
 let OmniCpp_GlobalScopeSearch = 1      
@@ -63,6 +79,10 @@ let OmniCpp_MayCompleteDot = 1
 let OmniCpp_MayCompleteArrow = 1      
 let OmniCpp_MayCompleteScope = 1      
 let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
+" Do not show preview window
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
 " For NERDTree plugin
 autocmd vimenter * NERDTree
 map <leader>t :NERDTreeToggle<CR>
@@ -79,4 +99,5 @@ let Tlist_Exit_OnlyWindow=1
 let Tlist_File_Fold_Auto_Close=1
 " For ctags
 set tags+=~/.vim/tagfiles/stl_tags
+set tags+=~/zeromq/include/tags
 map <F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+ialS --extra=+q .<CR> <CR>
