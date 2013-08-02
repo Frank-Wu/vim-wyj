@@ -17,11 +17,11 @@ Bundle 'Lokaltog/vim-easymotion'
 Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 Bundle 'tpope/vim-rails.git'
 Bundle 'The-NERD-tree'
-" vim-scripts repos
-Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'taglist.vim'
 Bundle 'tomasr/molokai'
+Bundle 'L9'
+Bundle 'terryma/vim-multiple-cursors'
 " ...
 
 filetype plugin indent on     " required!
@@ -53,22 +53,20 @@ syntax enable
 syntax on
 
 " Auto complete brackets
-:inoremap ( ()<ESC>i
-:inoremap ) <c-r>=ClosePair(')')<CR>
-:inoremap { {}<ESC>i
-:inoremap } <c-r>=ClosePair('}')<CR>
-:inoremap [ []<ESC>i
-:inoremap ] <c-r>=ClosePair(']')<CR>
-:inoremap " ""<ESC>i
-:inoremap ' ''<ESC>i
-function ClosePair(char)
-	if getline('.')[col('.') - 1] == a:char
-		return "\<Right>"
-	else
-		return a:char
-	endif
-endf
-
+" :inoremap ( ()<ESC>i
+" :inoremap ) <c-r>=ClosePair(')')<CR>
+" :inoremap { {}<ESC>i
+" :inoremap } <c-r>=ClosePair('}')<CR>
+":inoremap [ []<ESC>i
+":inoremap ] <c-r>=ClosePair(']')<CR>
+"function ClosePair(char)
+"	if getline('.')[col('.') - 1] == a:char
+"		return "\<Right>"
+"	else
+"		return a:char
+"	endif
+"endf
+"
 " For omnicomplete
 let OmniCpp_NamespaceSearch = 1      
 let OmniCpp_GlobalScopeSearch = 1      
